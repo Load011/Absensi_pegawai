@@ -25,8 +25,8 @@ class EmployeeController extends Controller
                 ->leftJoin('personnel_position', 'personnel_employee.position_id', '=', 'personnel_position.id')
                 ->select('personnel_employee.*', 'personnel_department.dept_name', 'personnel_position.position_name')
                 ->get(),
-            'departments' =>  DB::table('personnel_department')->get(), // Mengambil semua data departemen
-            'positions' =>  DB::table('personnel_position')->get(), // Mengambil semua data jabatan
+            'departments' =>  DB::table('personnel_department')->get(),
+            'positions' =>  DB::table('personnel_position')->get(),
         ];
     
         // dd($data);
@@ -179,11 +179,11 @@ class EmployeeController extends Controller
     }
 
     public function updatev2(Request $request, $id) {
-        // Validasi data yang diterima dari form
         $request->validate([
-            'name' => 'required|string|max:255',
-            'department' => 'required|integer', // Pastikan departemen merupakan integer (ID departemen)
-            'position' => 'required|integer', // Pastikan jabatan merupakan integer (ID jabatan)
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'department' => 'required|integer', 
+            'position' => 'required|integer',
             'hire_date' => 'required|date',
         ]);
     
@@ -199,7 +199,8 @@ class EmployeeController extends Controller
     
         // Menyiapkan data baru yang akan diupdate
         $data = [
-            'first_name' => $request->input('name'),
+            'first_name' => $request->input('first_name'),
+            'last_name'=> $request->input('last_name'),
             'department_id' => $request->input('department'),
             'position_id' => $request->input('position'),
             'hire_date' => $request->input('hire_date'),

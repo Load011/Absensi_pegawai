@@ -42,8 +42,12 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group">
-                                    <label for="name">Nama:</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="{{ $employee->name }}">
+                                    <label for="first_name">First Name:</label>
+                                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ $employee->first_name }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="last_name">Nama Belakang:</label>
+                                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{ $employee->last_name }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="department">Department:</label>

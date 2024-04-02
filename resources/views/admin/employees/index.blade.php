@@ -57,10 +57,10 @@
                                     @foreach ($personnel_employee as $index => $employee)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $employee->first_name}}</td>
+                                        <td>{{ $employee->first_name}} {{ $employee->last_name}}</td>
                                         <td>{{ $employee->dept_name}}</td>
                                         <td>{{ $employee->position_name }}</td>                             
-                                        <td>{{ $employee->hire_date}}</td>
+                                        <td>{{ \Carbon\Carbon::parse($employee->hire_date)->format('d-m-Y') }}</td>
                                         <td>
                                             <button 
                                             class="btn btn-flat btn-danger"
@@ -139,8 +139,12 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <label for="name">Nama:</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ $employee->first_name }}">
+                            <label for="name">Nama Depan:</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ $employee->first_name }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Nama Belakang:</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" value="{{ $employee->last_name }}">
                         </div>
                         <div class="form-group">
                             <label for="department">Department:</label>

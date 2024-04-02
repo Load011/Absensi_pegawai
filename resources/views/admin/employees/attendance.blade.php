@@ -192,19 +192,18 @@ $(document).ready(function() {
                     columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], // Sesuaikan kolom yang akan diekspor
                     format: {
                         body: function (data, row, column, node) {
-                            if (column === 7) { // Kolom Keterangan
-                                // Return keterangan yang dipilih dari dropdown
+                            if (column === 7) {
                                 if ($(node).find('.status-dropdown').val() === '') {
-                                    return ''; // Jika status kosong, kembalikan string kosong
+                                    return '';
                                 } else {
                                     return $(node).find('.status-dropdown option:selected').text();
                                 }
-                            } else if (column === 8) { // Kolom Alasan
+                            } else if (column === 8) {
                                 var rowId = $(node).closest('tr').data('row-id');
-                                return localStorage.getItem('alasan_' + rowId) || ''; // Mengambil nilai alasan dari localStorage atau kembali string kosong jika tidak ada
+                                return localStorage.getItem('alasan_' + rowId) || '';
                             }
                              else {
-                                return data; // Return data as is for other columns
+                                return data;
                             }
                         }
                     }
@@ -217,16 +216,13 @@ $(document).ready(function() {
 
     // Mengirimkan data form saat tombol submit ditekan
     $(document).on('submit', '#attendanceForm', function(e) {
-        e.preventDefault(); // Menghentikan perilaku default form submit
+        e.preventDefault();
         
-        // Ambil rentang tanggal yang dipilih
         var startDate = $('#date').data('daterangepicker').startDate.format('YYYY-MM-DD');
         var endDate = $('#date').data('daterangepicker').endDate.format('YYYY-MM-DD');
 
-        // Ambil data alasan yang dimasukkan oleh pengguna
         var alasanData = getAlasanData();
 
-        // Kirim data ke server menggunakan AJAX
         $.ajax({
             url: "{{ route('admin.employees.attendance') }}", // Ganti dengan URL tujuan Anda
             method: "POST",
@@ -247,7 +243,6 @@ $(document).ready(function() {
         });
     });
 
-    // Menambahkan rentang tanggal
     $('#date').daterangepicker({
         "locale": {
             "format": "DD-MM-YYYY"
@@ -273,15 +268,12 @@ $(document).ready(function() {
         }
     });
 
-    // Menyimpan alasan yang dimasukkan oleh pengguna
     $(document).on('change', '.alasan-input', function() {
         var rowId = $(this).data('row-id');
         var alasan = $(this).val();
-        // Simpan alasan ke dalam local storage agar tetap ada setelah penyegaran halaman
         localStorage.setItem('alasan_' + rowId, alasan);
     });
 
-    // Memeriksa apakah alasan sebelumnya telah disimpan di local storage dan mengisi input alasan sesuai
     $('.alasan-input').each(function() {
         var rowId = $(this).data('row-id');
         var savedAlasan = localStorage.getItem('alasan_' + rowId);
@@ -290,7 +282,6 @@ $(document).ready(function() {
         }
     });
 
-    // Fungsi untuk mendapatkan data alasan dari input alasan
     function getAlasanData() {
         var alasanData = {};
         $('.alasan-input').each(function() {

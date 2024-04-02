@@ -79,7 +79,6 @@
                                     <th>Departement</th>
                                     <th>Date</th>
                                     <th>Time</th>
-                                    <th>Punch State</th>
                                     <th>Denda</th>
                                     <th>Keterangan</th>
                                     <th>Alasan</th>
@@ -93,15 +92,6 @@
                                     <td>{{ $employee->dept_name }}</td>
                                     <td>{{ date('Y-m-d', strtotime($employee->punch_time)) }}</td>
                                     <td>{{ substr($employee->punch_time, 11, 8) }}</td>
-                                    <td>
-                                        @if($employee->punch_state == 0)
-                                            Check In
-                                        @elseif($employee->punch_state == 1)
-                                            Check Out
-                                        @else
-                                            Unknown
-                                        @endif
-                                    </td>
                                     <td>
                                         @php
                                             $lateTime = Carbon\Carbon::createFromFormat('H:i:s', substr($employee->punch_time, 11, 8));
@@ -189,16 +179,16 @@ $(document).ready(function() {
                 filename: 'Data Kehadiran',
                 title: 'Data Kehadiran',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], // Sesuaikan kolom yang akan diekspor
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7], // Sesuaikan kolom yang akan diekspor
                     format: {
                         body: function (data, row, column, node) {
-                            if (column === 7) {
+                            if (column === 6) {
                                 if ($(node).find('.status-dropdown').val() === '') {
                                     return '';
                                 } else {
                                     return $(node).find('.status-dropdown option:selected').text();
                                 }
-                            } else if (column === 8) {
+                            } else if (column === 7) {
                                 var rowId = $(node).closest('tr').data('row-id');
                                 return localStorage.getItem('alasan_' + rowId) || '';
                             }

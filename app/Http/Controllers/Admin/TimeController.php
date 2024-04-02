@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Carbon;
 
 use App\Timetable;
+use App\Shift;
+use App\Breaktime;
+use App\Schedule;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,6 +26,24 @@ class TimeController extends Controller
     {
         $companies = DB::table('personnel_company')->select('id','company_code', 'company_name')->get();
         return view('admin.timetable.create', compact('companies'));
+    }
+
+    public function shift(){
+        $shift = Shift::all();
+
+        return view('admin.timetable.shift.index', compact(''));
+    }
+
+    public function breaktime(){
+        $breaktime = Breaktime::all();
+
+        return view('admin.timetable.breaktime.index', compact(''));
+    }
+
+    public function scheduled(){
+        $schedule = Schedule::all();
+
+        return view('admin.timetable.schedule.index', compact(''));
     }
 
     public function store(Request $request)

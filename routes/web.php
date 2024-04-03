@@ -10,6 +10,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\PositionController;
+use App\Http\Controllers\Admin\ShiftController;
+use App\Http\Controllers\Admin\BreaktimeController;
+use App\Http\Controllers\Admin\ScheduleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,5 +85,29 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware(['auth','
      //
     Route::get('/employees/{employee}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
     Route::put('/employees/{employee}', [EmployeeController::class, 'updatev2'])->name('employees.update');
+
+    //Routes for Breaktime
+    Route::get('/breaktime', [BreaktimeController::class, 'index'])->name('breaktime.index');
+    Route::get('/breaktime/create', [BreaktimeController::class, 'create'])->name('breaktime.create');
+    Route::post('/breaktime', [BreaktimeController::class, 'store'])->name('breaktime.store');
+    Route::get('/breaktime/{id}/edit', [BreaktimeController::class, 'edit'])->name('breaktime.edit');
+    Route::put('/breaktime/{id}', [BreaktimeController::class, 'update'])->name('breaktime.update');
+    Route::delete('/breaktime/{id}', [BreaktimeController::class, 'destroy'])->name('breaktime.destroy');
+
+    // Routes for Shift
+    Route::get('/shift', [ShiftController::class, 'index'])->name('shift.index');
+    Route::get('/shift/create', [ShiftController::class, 'create'])->name('shift.create');
+    Route::post('/shift', [ShiftController::class, 'store'])->name('shift.store');
+    Route::get('/shift/{id}/edit', [ShiftController::class, 'edit'])->name('shift.edit');
+    Route::put('/shift/{id}', [ShiftController::class, 'update'])->name('shift.update');
+    Route::delete('/shift/{id}', [ShiftController::class, 'destroy'])->name('shift.destroy');
+
+    // Routes for Schedule
+    Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
+    Route::get('/schedule/create', [ScheduleController::class, 'create'])->name('schedule.create');
+    Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
+    Route::get('/schedule/{id}/edit', [ScheduleController::class, 'edit'])->name('schedule.edit');
+    Route::put('/schedule/{id}', [ScheduleController::class, 'update'])->name('schedule.update');
+    Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
 });
 

@@ -4,24 +4,24 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Employee;
-use App\Shift;
 
-class Schedule extends Model
+use App\Timetable;
+
+class ShiftDetail extends Model
 {
     use HasFactory;
 
-    protected $table = "att_attschedule";
+    protected $table = "att_shiftdetail";
 
     protected $fillable = [
-        'start_date',
-        'end_date',
-        'employee_id',
+        'in_time',
+        'day_index',
         'shift_id',
+        'time_intterval_id'
     ];
 
-    public function employees(){
-        return $this->belongsTo(Employee::class, 'employee_id');
+    public function timetable(){
+        return $this->belongsTo(Timetable::class, 'timetable_id');
     }
 
     public function shift(){

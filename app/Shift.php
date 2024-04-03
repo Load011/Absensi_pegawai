@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\ShiftDetail;
+
 class Shift extends Model
 {
     use HasFactory;
@@ -15,4 +17,8 @@ class Shift extends Model
         'alias',
         'company_id',
     ];
+
+    public function ShiftDetail(){
+        return $this->belongsTo(ShiftDetail::class);
+    }
 }

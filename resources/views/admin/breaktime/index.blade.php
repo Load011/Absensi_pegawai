@@ -33,7 +33,10 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            @if ($break->count() > 0)
+                            <div class="mb-3">
+                                <a href="{{ route('admin.breaktime.create') }}" class="btn btn-success">Tambah Jam Istirahat</a>
+                            </div>
+                            @if ($breaks->count() > 0)
                                 <table class="table table-bordered table-hover" id="dataTable">
                                     <thead>
                                         <tr>
@@ -41,41 +44,33 @@
                                             <th>Alias</th>
                                             <th>Jam Mulai</th>
                                             <th>Lama Waktu</th>
-                                            <th>End Margin</th>
+                                            <th>Jam Selesai</th>
                                             <th>Company ID</th>
                                             <th> Aksi </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($break as $index => $breaktime)
+                                        @foreach ($breaks as $index => $breaktime)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $breaktime->alias }}</td>
-                                                <td>{{ $breaktime->period_start }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($breaktime->period_start)->format('H:i:s') }}</td>
                                                 <td>{{ $breaktime->duration }}</td>
-                                                <td>{{ $breaktime->end_margin }}</td>
-                                                <td>{{ $breaktime->company_id }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($breaktime->period_start)->addMinutes($breaktime->end_margin)->format('H:i:s') }}</td>
+                                                <td>{{ $breaktime->company_name }}</td>
                                                 <td>
-                                                    <button 
-                                                        class="btn btn-flat btn-danger"
-                                                        data-toggle="modal" 
-                                                        data-target="#deleteModalCenter{{ $index + 1 }}"
-                                                    >
-                                                        Hapus
-                                                    </button>
-                                                    <button 
-                                                        class="btn btn-flat btn-primary"
-                                                        data-toggle="modal" 
-                                                        data-target="#editModalCenter{{ $index + 1 }}"
-                                                    >
-                                                        Edit
-                                                    </button>
+                                                    <a href="{{ route('admin.breaktime.edit', $breaktime->id) }}" class="btn btn-primary">Edit</a>
+                                                    <form action="{{ route('admin.breaktime.destroy', $breaktime->id) }}" method="POST" style="display: inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                                @foreach ($break as $index => $breaktime)
+                                @foreach ($breaks as $index => $breaktime)
                                     <!-- Delete Modal -->
                                     <div class="modal fade" id="deleteModalCenter{{ $index + 1 }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle1{{ $index + 1 }}" aria-hidden="true">
                                         <!-- Modal Content -->

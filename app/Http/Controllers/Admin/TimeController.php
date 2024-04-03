@@ -28,24 +28,6 @@ class TimeController extends Controller
         return view('admin.timetable.create', compact('companies'));
     }
 
-    public function shift(){
-        $shift = Shift::all();
-
-        return view('admin.timetable.shift.index', compact(''));
-    }
-
-    public function breaktime(){
-        $breaktime = Breaktime::all();
-
-        return view('admin.timetable.breaktime.index', compact(''));
-    }
-
-    public function scheduled(){
-        $schedule = Schedule::all();
-
-        return view('admin.timetable.schedule.index', compact(''));
-    }
-
     public function store(Request $request)
     {
         $request->validate([

@@ -44,8 +44,6 @@
                         </p>
                     </a>
                 </li>
-                <!-- sidebar.blade.php atau menu.blade.php -->
-                <!-- Menu Karyawan -->
                 <li class="nav-item has-treeview {{ request()->routeIs(['admin.employees.index']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->routeIs(['admin.employees.index']) ? 'active' : '' }}">
                         <i class="nav-icon fa fa-users"></i>
@@ -62,8 +60,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-treeview {{ request()->routeIs('admin.timetable.index') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ request()->routeIs('admin.timetable.index') ? 'active' : '' }}">
+                <li class="nav-item has-treeview {{ request()->routeIs('admin.timetable.index', 'admin.breaktime.index', 'admin.shift.index', 'admin.schedule.index') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->routeIs('admin.timetable.index', 'admin.breaktime.index', 'admin.shift.index', 'admin.schedule.index') ? 'active' : '' }}">
                         <i class="nav-icon fa fa-clock"></i>
                         <p>
                             Manajemen Waktu
@@ -72,8 +70,23 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{ route('admin.breaktime.index') }}" class="nav-link {{ request()->routeIs('admin.breaktime.index') ? 'active' : '' }}">
+                                <p>&nbsp; Breaktime</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('admin.timetable.index') }}" class="nav-link {{ request()->routeIs('admin.timetable.index') ? 'active' : '' }}">
-                                <p>&nbsp;Timetable</p>
+                                <p>&nbsp; Timetable</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.shift.index') }}" class="nav-link {{ request()->routeIs('admin.shift.index') ? 'active' : '' }}">
+                                <p>&nbsp; Shift</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.schedule.index') }}" class="nav-link {{ request()->routeIs('admin.schedule.index') ? 'active' : '' }}">
+                                <p>&nbsp; Schedule</p>
                             </a>
                         </li>
                     </ul>

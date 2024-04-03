@@ -27,4 +27,10 @@ class ShiftDetail extends Model
     public function shift(){
         return $this->belongsTo(Shift::class,'shift_id');
     }
+
+    public function getDayNameAttribute()
+{
+    $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return $days[$this->day_index];
+}
 }

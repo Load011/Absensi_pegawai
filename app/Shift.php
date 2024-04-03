@@ -18,7 +18,7 @@ class Shift extends Model
         'company_id',
     ];
 
-    public function ShiftDetail(){
-        return $this->belongsTo(ShiftDetail::class);
+    public function shiftDetails(){
+        return $this->hasMany(ShiftDetail::class, 'shift_id');
     }
 }

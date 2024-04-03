@@ -27,6 +27,9 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <div class="mb-3">
+                            <a href="{{ route('admin.shift.create') }}" class="btn btn-success">Tambah Timetable</a>
+                        </div>
                         @if ($shifts->isEmpty())
                         <div class="alert alert-info">
                             No shifts found.
@@ -37,106 +40,43 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Alias</th>
-                                    <th>Day</th>
+                                    <th>Hari Kerja</th>
+                                    <th>Jam Masuk</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    $displayedShifts = [];
+                                @endphp
                                 @foreach ($shifts as $index => $shift)
-                                <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>
-                                        @foreach ($shift->shiftDetails as $shiftDetail)
-                                        {{ $shiftDetail->day_index }},
-                                    @endforeach
-                                    </td>
-                                    <td>{{ $shift->alias }}</td>
-                                    <td>
-                                        <!-- Edit button -->
-                                        <button 
-                                            class="btn btn-flat btn-primary"
-                                            data-toggle="modal" 
-                                            data-target="#editModalCenter{{ $index + 1 }}"
-                                        >
-                                            Edit
-                                        </button>
-
-                                        <!-- Delete button -->
-                                        <button 
-                                            class="btn btn-flat btn-danger"
-                                            data-toggle="modal" 
-                                            data-target="#deleteModalCenter{{ $index + 1 }}"
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <!-- Edit Modal -->
-                                <div class="modal fade" id="editModalCenter{{ $index + 1 }}" tabindex="-1" role="dialog" aria-labelledby="editModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalCenterTitle">Edit Shift</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <!-- Edit Shift Form -->
-                                                <form method="POST" action="{{ route('admin.shift.update', $shift->id) }}">
-                                                    @csrf
-                                                    @method('PUT')
-
-                                                    <!-- Shift Alias -->
-                                                    <div class="form-group">
-                                                        <label for="alias{{ $index + 1 }}">Alias</label>
-                                                        <input type="text" class="form-control" id="alias{{ $index + 1 }}" name="alias" value="{{ $shift->alias }}" required>
-                                                    </div>
-
-                                                    <!-- Company ID -->
-                                                    <div class="form-group">
-                                                        <label for="company_id{{ $index + 1 }}">Company ID</label>
-                                                        <input type="text" class="form-control" id="company_id{{ $index + 1 }}" name="company_id" value="{{ $shift->company_id }}" required>
-                                                    </div>
-
-                                                    <!-- Submit Button -->
-                                                    <button type="submit" class="btn btn-primary">Update Shift</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- Delete Modal -->
-                                <div class="modal fade" id="deleteModalCenter{{ $index + 1 }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalCenterTitle">Confirm Delete</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Are you sure you want to delete this shift?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                <form action="{{ route('admin.shift.destroy', $shift->id) }}" method="POST">
+                                    @if (!in_array($shift->id, $displayedShifts))
+                                        @php
+                                            $displayedShifts[] = $shift->id;
+                                        @endphp                                
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $shift->alias }}</td>
+                                            <td>
+                                                @foreach ($shift->shiftDetails as $shiftDetail)
+                                                    {{ $shiftDetail->day_name }},
+                                                @endforeach
+                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($shift->shiftDetails->first()->in_time)->format('H:i') }}</td>
+                                            <td>
+                                                <a href="{{ route('admin.shift.edit', $shift->id) }}" class="btn btn-primary">Edit</a>
+                                                <form action="{{ route('admin.shift.destroy', $shift->id) }}" method="POST" style="display: inline-block;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                                                 </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            </td>
+                                    @endif
                                 @endforeach
-
                             </tbody>
+                            
                         </table>
+                        
                         @endif
                     </div>
                     <!-- /.card-body -->

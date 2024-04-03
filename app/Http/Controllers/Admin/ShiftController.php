@@ -4,22 +4,41 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 use App\Shift;
 use App\ShiftDetail;
+use App\Timetable;
 
 class ShiftController extends Controller
 {
     public function index()
 {
-    $shifts = Shift::with('ShiftDetail.shift')->get();
+    $shifts = DB::table('att_attshift')
+        ->join('att_shiftdetail', 'att_attshift.id', '=', 'att_shiftdetail.shift_id')
+        ->leftJoin('att_timeinterval', 'att_shiftdetail.time_interval_id', '=', 'att_timeinterval.id')
+        ->select('att_attshift.*', 'att_shiftdetail.*', 'att_timeinterval.*')
+        ->get();
+    
+    // Manually load shiftDetails for each shift
+    foreach ($shifts as $shift) {
+        $shift->shiftDetails = ShiftDetail::where('shift_id', $shift->id)->get();
+    }
+    
     return view("admin.shift.index", compact("shifts"));
 }
 
 
-    public function create()
-    {
-        return view("admin.shift.create");
-    }
+
+public function create()
+{
+    $shifts = Shift::all();
+    $timeIntervals = Timetable::all(); 
+    $companies = DB::table('personnel_company')->select('id','company_code', 'company_name')->get();
+
+    return view("admin.shift.create", compact("shifts", "timeIntervals", "companies"));
+}
+
 
     public function store(Request $request)
     {

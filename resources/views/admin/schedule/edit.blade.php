@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Edit Shift</div>
+                <div class="card-header">Edit Schedule</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.shift.update', $shift->id) }}">
@@ -27,19 +27,21 @@
                         <!-- Day Index -->
                         <div class="form-group">
                             <label for="day_index">Day Index</label>
-                            <input type="number" class="form-control" id="day_index" name="day_index" value="{{ $shift->day_index }}" required>
+                            <input type="number" class="form-control" id="day_index" name="day_index" value="{{ $shiftDetail->day_index }}" required>
                         </div>
 
-                        <!-- Timetable ID -->
+                        <!-- Timetable -->
                         <div class="form-group">
-                            <label for="timetable_id">Timetable ID</label>
-                            <input type="number" class="form-control" id="timetable_id" name="timetable_id" value="{{ $shift->timetable_id }}" required>
+                            <label for="timetable_id">Timetable</label>
+                            <select class="form-control" id="timetable_id" name="timetable_id" required>
+                                @foreach ($timetables as $timetable)
+                                    <option value="{{ $timetable->id }}" {{ $timetable->id == $shiftDetail->timetable_id ? 'selected' : '' }}>{{ $timetable->alias }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary">Update Shift</button>
-                        <a href="{{ route('admin.shift.index') }}" class="btn btn-secondary">Cancel</a>
-
+                        <button type="submit" class="btn btn-primary">Update Schedule</button>
                     </form>
                 </div>
             </div>

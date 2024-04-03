@@ -24,5 +24,11 @@ class Timetable extends Model
         'max_ot_limit',
         'company_id',
     ];
+    public function getEndTimeAttribute()
+    {
+        $start_time = \Carbon\Carbon::parse($this->in_time);
+        $end_time = $start_time->addMinutes($this->duration);
+        return $end_time->format('H:i');
+    }
     
 }
